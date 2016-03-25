@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+  <packaging>jar</packaging>
+  <groupId>org.webjars</groupId>
+  <artifactId>bootstrap-daterangepicker</artifactId>
+  <version>2.1.19</version>
+  <name>Bootstrap Date Range Picker</name>
+  <description>A JavaScript component for choosing date ranges. Designed to work with the Bootstrap CSS framework.</description>
+  <url>https://webjars.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <upstream.version>2.1.19</upstream.version>
+    <upstream.url>https://github.com/dangrossman/bootstrap-daterangepicker/archive/v2.1.19.zip</upstream.url>
+    <destDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}</destDir>
+    <requirejs>
+      {
+        "paths": {
+          "bootstrap-daterangepicker": "js/bootstrap-daterangepicker"
+          "bootstrap-daterangepicker-css": "css/bootstrap-daterangepicker"
+        },
+        "shim": {
+          "bootstrap-daterangepicker": ["bootstrap", "momentjs"]
+        }
+      }
+    </requirejs>
+  </properties>
+
+  <developers>
+    <developer>
+      <id>mgrubb</id>
+      <name>Michael Grubb</name>
+      <email>michael@grubb.co</email>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>http://github.com/webjars/bootstrap-daterangepicker</url>
+    <connection>scm:git:https://github.com/webjars/bootstrap-daterangepicker.git</connection>
+    <developerConnection>scm:git:https://github.com/webjars/bootstrap-daterangepicker.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>[3.0.0,)</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>momentjs</artifactId>
+      <version>[2.9.0,)</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <target>
+                <echo message="download archive"/>
+                <get src="${upstream.url}" dest="${project.build.directory}/${project.artifactId}.zip" />
+                <echo message="unzip archive"/>
+                <unzip src="${project.build.directory}/${project.artifactId}.zip" dest="${project.build.directory}">
+                  <patternset>
+                    <include name="**/daterangepicker.*" />
+                  </patternset>
+                </unzip>
+                <echo message="moving resources" />
+                <move todir="${destDir}/js">
+                  <fileset file="${project.build.directory}/${project.artifactId}-${upstream.version}/daterangepicker.js" />
+                  <globmapper from="*" to="bootstrap-*" />
+                </move>
+                <move todir="${destDir}/css">
+                  <fileset file="${project.build.directory}/${project.artifactId}-${upstream.version}/daterangepicker.css" />
+                  <globmapper from="*" to="bootstrap-*" />
+                </move>
+                <move todir="${destDir}/scss">
+                  <fileset file="${project.build.directory}/${project.artifactId}-${upstream.version}/daterangepicker.scss" />
+                  <globmapper from="*" to="bootstrap-*" />
+                </move>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.6</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>sonatype-nexus-staging</serverId>
+          <nexusUrl>https://oss.sonatype.org</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
