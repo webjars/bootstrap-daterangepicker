@@ -9,7 +9,7 @@
   <packaging>jar</packaging>
   <groupId>org.webjars</groupId>
   <artifactId>bootstrap-daterangepicker</artifactId>
-  <version>2.1.27-SNAPSHOT</version>
+  <version>2.1.27</version>
   <name>Bootstrap Date Range Picker</name>
   <description>A JavaScript component for choosing date ranges. Designed to work with the Bootstrap CSS framework.</description>
   <url>https://webjars.org</url>
@@ -52,7 +52,7 @@
     <url>http://github.com/webjars/bootstrap-daterangepicker</url>
     <connection>scm:git:https://github.com/webjars/bootstrap-daterangepicker.git</connection>
     <developerConnection>scm:git:https://github.com/webjars/bootstrap-daterangepicker.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>bootstrap-daterangepicker-2.1.27</tag>
   </scm>
 
   <dependencies>
